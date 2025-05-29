@@ -249,14 +249,27 @@ const App: React.FC = () => {
   };
   
   const handleLogout = async () => {
-    try {
-      await signOutUser();
-      // Auth listener will handle setting currentUser to null and isAdminView to false
-    } catch (error: any) {
-      console.error("Error al cerrar sesión:", error);
-      alert(`Error al cerrar sesión: ${error.message}`);
-    }
-  };
+  console.log("App.tsx: handleLogout CALLED at", new Date().toISOString());
+  try {
+    await signOutUser();
+    // Normalmente, el Auth listener maneja la actualización del estado
+    // Pero para mayor seguridad, forzamos la actualización del estado aquí también
+    setCurrentUser(null);
+    setIsAdminView(false);
+    console.log("Estado de usuario actualizado manualmente después de cerrar sesión");
+  } catch (error: any) {
+    console.error("Error al cerrar sesión:", error);
+    
+    // Incluso si hay un error, actualizamos el estado de la UI para "desconectar" al usuario
+    // Esto evita que quede atrapado en la vista de administrador
+    setCurrentUser(null);
+    setIsAdminView(false);
+    console.log("Estado de usuario actualizado manualmente a pesar del error de cierre de sesión");
+    
+    // Mostramos un mensaje más amigable
+    alert("La sesión ha sido cerrada localmente. Por favor, recarga la página si encuentras algún problema.");
+  }
+};
 
   const handleAdminUpdateTicket = async (updatedTicket: RaffleTicket) => {
     const updatedTickets = tickets.map(t => t.id === updatedTicket.id ? updatedTicket : t);
@@ -288,7 +301,7 @@ const App: React.FC = () => {
   const totalSelectedPrice = selectedTicketsForPurchase.length * TICKET_PRICE;
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-900 via-slate-800 to-sky-900 text-slate-100">
+    <div className={`min-h-screen flex flex-col bg-gradient-to-br from-slate-900 via-slate-800 to-sky-900 text-slate-100 ${!isAdminView ? 'pb-36 sm:pb-28' : ''}`}>
       <Header 
         currentUser={currentUser}
         isAdmin={isAdminView}

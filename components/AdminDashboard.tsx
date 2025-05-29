@@ -122,7 +122,17 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ tickets, onUpdateTicket
               {filteredTickets.map(ticket => (
                 <tr key={ticket.id} className="hover:bg-slate-700/40 transition-colors">
                   <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-slate-100">{ticket.id}</td>
-                  <td className="px-4 py-3 whitespace-nowrap">
+                  <td 
+                    className="px-4 py-3 whitespace-nowrap cursor-pointer hover:bg-slate-700/60 transition-colors"
+                    onClick={() => {
+                      if (ticket.status === TicketStatus.RESERVED) {
+                        setSelectedTicketForVerification(ticket);
+                      } else {
+                        setSelectedTicketForEditing(ticket);
+                      }
+                    }}
+                    title={ticket.status === TicketStatus.RESERVED ? "Verificar Pago / Ver Detalles" : "Editar Boleto / Ver Detalles"}
+                  >
                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClass(ticket.status)}`}>
                       {statusTranslations[ticket.status]}
                       {ticket.status === TicketStatus.PAID && ' ✓'}

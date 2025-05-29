@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
         Aplicación desarrollada con ❤️ para una gran causa.
       </p>
       <div className="mt-2">
-        <a href="https://www.gofundme.com/f/apoyo-para-share-transplante-de-rinon" target="_blank" rel="noopener noreferrer" className="text-sky-400 hover:text-sky-300 transition-colors">
+        <a href="https://www.gofundme.com/f/ayuda-para-transplante-de-rinon-help-for-kidney-transplant" target="_blank" rel="noopener noreferrer" className="text-sky-400 hover:text-sky-300 transition-colors">
           Visita la campaña en GoFundMe
         </a>
       </div>
