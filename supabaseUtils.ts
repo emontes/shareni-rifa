@@ -224,25 +224,20 @@ export const signInWithEmailPassword = async (email?: string, password?: string)
 
 export const signOutUser = async () => {
   if (!supabase) {
-    console.error("Supabase client no inicializado al intentar signOutUser.");
     throw new Error("Supabase client no inicializado.");
   }
 
-  // Log current session state before attempting sign out for debugging
-  let sessionBeforeSignOut = null;
+  // Verificar si hay una sesión activa
+  let sessionExists = false;
   try {
-    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-    if (sessionError) {
-      console.error("Error al obtener la sesión ANTES de signOut:", sessionError.message);
-    }
-    sessionBeforeSignOut = session;
-    console.log('Estado de la sesión ANTES de llamar a supabase.auth.signOut():', sessionBeforeSignOut);
-  } catch (e: any) {
-    console.error("Excepción al obtener la sesión ANTES de signOut:", e?.message, e);
+    const { data: { session } } = await supabase.auth.getSession();
+    sessionExists = !!session;
+  } catch (e) {
+    // Si hay un error al obtener la sesión, asumimos que no hay sesión
   }
 
-  if (!sessionBeforeSignOut) {
-    console.warn("signOutUser llamado cuando no había sesión activa según getSession(). Se considera como ya desconectado.");
+  if (!sessionExists) {
+    // No hay sesión activa, no hay nada que cerrar
     return; 
   }
 
@@ -251,18 +246,11 @@ export const signOutUser = async () => {
     const { error: signOutError } = await supabase.auth.signOut({ scope: 'local' });
     
     if (signOutError) {
-      // Si hay un error, lo registramos pero no lo lanzamos todavía
-      console.warn("Error al cerrar sesión normalmente:", signOutError.message);
-      
       // Verificamos si es el error específico de Auth session missing o 403 Forbidden
       if (signOutError.message.includes('Auth session missing') || 
           (signOutError.status === 403 || signOutError.message.includes('403'))) {
-        console.log('Detectado error de sesión. Implementando solución alternativa...');
         
         // Solución alternativa: forzar limpieza local de la sesión
-        // Esto no es ideal pero evitará que el usuario quede atrapado en la UI de admin
-        
-        // 1. Intentar limpiar localStorage (donde Supabase guarda tokens)
         try {
           // Limpiar solo los items relacionados con Supabase Auth
           const keysToRemove = [];
@@ -275,16 +263,12 @@ export const signOutUser = async () => {
           
           // Eliminar las claves encontradas
           keysToRemove.forEach(key => {
-            console.log('Eliminando clave de localStorage:', key);
             localStorage.removeItem(key);
           });
-          
-          console.log('Limpieza local de sesión completada.');
           
           // No lanzar el error, permitir que la aplicación continúe como si el logout fuera exitoso
           return;
         } catch (storageError) {
-          console.error('Error al limpiar localStorage:', storageError);
           // Continuar y lanzar el error original si la limpieza falla
         }
       }
@@ -292,10 +276,7 @@ export const signOutUser = async () => {
       // Si llegamos aquí, o no era un error de sesión o la limpieza falló
       throw signOutError;
     }
-
-    console.log('supabase.auth.signOut() llamado exitosamente.');
-  } catch (error: any) {
-    console.error("Error no manejado en signOutUser:", error);
+  } catch (error) {
     throw error; // Propagar el error para que la UI pueda manejarlo
   }
 };

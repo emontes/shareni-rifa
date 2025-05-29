@@ -81,6 +81,13 @@ const App: React.FC = () => {
       authListener?.subscription?.unsubscribe();
     };
   }, [isSupabaseConfigured]);
+  
+  // Efecto para hacer scroll al inicio cuando se activa la vista de administrador
+  useEffect(() => {
+    if (isAdminView) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [isAdminView]);
 
 
   const loadRaffleData = useCallback(async () => {
@@ -249,22 +256,15 @@ const App: React.FC = () => {
   };
   
   const handleLogout = async () => {
-  console.log("App.tsx: handleLogout CALLED at", new Date().toISOString());
   try {
     await signOutUser();
-    // Normalmente, el Auth listener maneja la actualización del estado
-    // Pero para mayor seguridad, forzamos la actualización del estado aquí también
+    // Forzamos la actualización del estado para garantizar que la UI se actualice
     setCurrentUser(null);
     setIsAdminView(false);
-    console.log("Estado de usuario actualizado manualmente después de cerrar sesión");
   } catch (error: any) {
-    console.error("Error al cerrar sesión:", error);
-    
     // Incluso si hay un error, actualizamos el estado de la UI para "desconectar" al usuario
-    // Esto evita que quede atrapado en la vista de administrador
     setCurrentUser(null);
     setIsAdminView(false);
-    console.log("Estado de usuario actualizado manualmente a pesar del error de cierre de sesión");
     
     // Mostramos un mensaje más amigable
     alert("La sesión ha sido cerrada localmente. Por favor, recarga la página si encuentras algún problema.");
