@@ -316,9 +316,16 @@ const App: React.FC = () => {
           <>
             <div className="bg-sky-800/50 backdrop-blur-md shadow-xl rounded-lg p-6 mb-8 text-center">
               <h2 className="text-3xl font-bold text-sky-300 mb-2">¡Participa y Apoya!</h2>
-              <p className="text-slate-300 mb-1">Ayuda a Shareni Azcarraga con los gastos de cirugía de donante para su transplante de riñón.</p>
+              <p className="text-slate-300 mb-1">Ayuda a Shareni Azcarraga con los gastos de cirugía para su trasplante de riñón.</p>
               <p className="text-slate-300 font-semibold">Premio: <span className="text-yellow-400">{PRIZE_AMOUNT}</span> | Costo por boleto: <span className="text-yellow-400">{TICKET_PRICE} MXN</span></p>
               <p className="text-sm text-sky-400 mt-2">Sorteo: {DRAW_DATE}</p>
+              <button 
+                onClick={() => document.getElementById('instrucciones')?.scrollIntoView({behavior: 'smooth'})}
+                className="mt-3 px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white font-medium rounded-lg shadow-md transition-all duration-150 ease-in-out flex items-center justify-center gap-2 mx-auto"
+              >
+                <InformationCircleIcon className="h-5 w-5" />
+                Instrucciones
+              </button>
             </div>
 
             {/* Sticky Action Bar - This entire block is moved and styled to be sticky */}
@@ -333,7 +340,7 @@ const App: React.FC = () => {
             />
             
             <div className="mt-8 p-6 bg-slate-800/60 backdrop-blur-sm rounded-lg shadow-lg">
-              <h3 className="text-2xl font-semibold text-sky-400 mb-4 flex items-center"><InformationCircleIcon className="h-7 w-7 mr-2 text-sky-500"/>Instrucciones para Participar:</h3>
+              <h3 id="instrucciones" className="text-2xl font-semibold text-sky-400 mb-4 flex items-center"><InformationCircleIcon className="h-7 w-7 mr-2 text-sky-500"/>Instrucciones para Participar:</h3>
               <ol className="list-decimal list-inside space-y-2 text-slate-300">
                 <li>Selecciona los números deseados en el tablero. Los números que elijas se marcarán en azul.</li>
                 <li>Verifica tu selección y el monto total a pagar.</li>
@@ -353,6 +360,28 @@ const App: React.FC = () => {
                 <li>Si tu pago es confirmado, el estado cambiará a "Pagado" (rojo con ✓).</li>
               </ol>
               <p className="mt-4 text-sm text-sky-400">Para cualquier duda, contacta a los organizadores.</p>
+              
+              <div className="mt-6 pt-4 border-t border-slate-700">
+                <h4 className="text-lg font-semibold text-sky-400 mb-3">Estado de los Boletos:</h4>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <div className="flex items-center">
+                    <div className="w-6 h-6 bg-green-600 rounded mr-2"></div>
+                    <span className="text-slate-300">Disponible</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-6 h-6 bg-sky-600 rounded mr-2"></div>
+                    <span className="text-slate-300">Apartado</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-6 h-6 bg-yellow-500 rounded mr-2"></div>
+                    <span className="text-slate-300">Reservado (pendiente de confirmación)</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-6 h-6 bg-red-600 rounded mr-2"></div>
+                    <span className="text-slate-300">Pagado</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </>
         )}
