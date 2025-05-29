@@ -1,0 +1,6 @@
+{
+  "name": "Rifa Pro Trasplante Shareni",
+  "description": "A web application to manage and participate in a raffle for Shareni Azcarraga's kidney transplant expenses. Users can select and reserve tickets, and administrators can manage ticket statuses and verify payments. Data is stored in Supabase.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}
