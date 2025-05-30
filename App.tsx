@@ -341,13 +341,19 @@ const App: React.FC = () => {
             
             <div className="mt-8 p-6 bg-slate-800/60 backdrop-blur-sm rounded-lg shadow-lg">
               <h3 id="instrucciones" className="text-2xl font-semibold text-sky-400 mb-4 flex items-center"><InformationCircleIcon className="h-7 w-7 mr-2 text-sky-500"/>Instrucciones para Participar:</h3>
+              <div className="mb-5 p-4 bg-yellow-500/20 border border-yellow-500 rounded-lg">
+                <p className="text-yellow-300 font-bold text-lg flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                  IMPORTANTE: Primero debes hacer el depósito
+                </p>
+                <p className="text-slate-200 mt-2">Para poder reservar tus boletos, es necesario que primero realices el depósito a la cuenta de Shareni y tengas tu comprobante de pago listo.</p>
+              </div>
+              
               <ol className="list-decimal list-inside space-y-2 text-slate-300">
-                <li>Selecciona los números deseados en el tablero. Los números que elijas se marcarán en azul.</li>
-                <li>Verifica tu selección y el monto total a pagar.</li>
-                <li>Haz clic en "Reservar Boletos Seleccionados".</li>
-                <li>Completa el formulario con tus datos: Nombre, Instagram, Teléfono y Ciudad.</li>
-                <li>Sube una foto de tu comprobante de pago. El pago es un donativo directo.
-                    <ul className="list-disc list-inside ml-6 mt-2 p-3 bg-slate-700/50 rounded space-y-1">
+                <li className="font-bold text-yellow-300">Realiza el depósito a la cuenta de Shareni:
+                    <ul className="list-disc list-inside ml-6 mt-2 p-3 bg-slate-700/50 rounded space-y-1 font-normal text-slate-300">
                         <li><strong>Titular:</strong> {BBVA_ACCOUNT_HOLDER}</li>
                         <li><strong>Cuenta BBVA:</strong> {BBVA_ACCOUNT_NUMBER}</li>
                         <li><strong>CLABE:</strong> {BBVA_CLABE_NUMBER}</li>
@@ -356,6 +362,11 @@ const App: React.FC = () => {
                         <li><strong>Monto:</strong> {TICKET_PRICE} MXN por boleto.</li>
                     </ul>
                 </li>
+                <li>Selecciona los números deseados en el tablero. Los números que elijas se marcarán en azul.</li>
+                <li>Verifica tu selección y el monto total a pagar. (Debe coincidir con el monto del depósito que hiciste en el paso 1)</li>
+                <li>Haz clic en "Reservar Boletos Seleccionados".</li>
+                <li>Completa el formulario con tus datos: Nombre, Instagram, Teléfono y Ciudad.</li>
+                <li>Sube la foto de tu comprobante de pago (que realizaste en el paso 1).</li>
                 <li>Una vez enviado, tus boletos cambiarán a estado "Reservado" (amarillo). Un administrador confirmará tu pago.</li>
                 <li>Si tu pago es confirmado, el estado cambiará a "Pagado" (rojo con ✓).</li>
               </ol>
