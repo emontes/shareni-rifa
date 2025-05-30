@@ -18,7 +18,7 @@ const Header: React.FC<HeaderProps> = ({
     onLogoutClick,
 }) => {
   return (
-    <header className="bg-slate-900/70 backdrop-blur-md shadow-lg p-4 sm:p-6 sticky top-0 z-50">
+    <header className="bg-slate-900/70 backdrop-blur-md shadow-lg p-4 sm:p-6 top-0 z-50">
       <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
         <div className="text-center sm:text-left">
           <h1 className="text-2xl sm:text-3xl font-bold text-sky-400">
